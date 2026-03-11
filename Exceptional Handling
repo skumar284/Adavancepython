@@ -1,0 +1,107 @@
+students = {}
+
+try:
+    sid = int(input("Enter Student ID: "))
+    grade = float(input("Enter Grade: "))
+
+    students[sid] = grade
+    print("Student record saved")
+
+except ValueError:
+    print("Error: Invalid input type")
+
+except Exception as e:
+    print("Error:", e)
+
+
+
+contacts = {}
+
+try:
+    name = input("Enter Name: ")
+    phone = input("Enter Phone Number: ")
+
+    if name == "" or phone == "":
+        raise ValueError("Fields cannot be empty")
+
+    if name in contacts:
+        raise Exception("Duplicate entry")
+
+    contacts[name] = phone
+    print("Contact saved")
+
+except Exception as e:
+    print("Error:", e)
+
+
+balance = 5000
+
+try:
+    amount = int(input("Enter amount to withdraw: "))
+
+    if amount > balance:
+        raise Exception("Overdraft! Not enough balance")
+
+    balance -= amount
+    print("Transaction successful")
+    print("Remaining balance:", balance)
+
+except ValueError:
+    print("Invalid amount")
+
+except Exception as e:
+    print("Error:", e)
+
+
+
+stock = 5
+
+try:
+    qty = int(input("Enter quantity: "))
+    coupon = input("Enter coupon code: ")
+
+    if qty > stock:
+        raise Exception("Out of stock")
+
+    if coupon != "SAVE10":
+        raise Exception("Invalid coupon code")
+
+    print("Order placed successfully")
+
+except Exception as e:
+    print("Error:", e)
+
+
+
+class OutOfStockError(Exception):
+    pass
+
+stock = 0
+
+try:
+    if stock == 0:
+        raise OutOfStockError("Product not available")
+
+except OutOfStockError as e:
+    print("Error:", e)
+
+
+seats = 2
+
+try:
+    passengers = int(input("Enter number of passengers: "))
+
+    if passengers > seats:
+        raise Exception("Seat not available")
+
+    print("Flight booked successfully")
+
+except ValueError:
+    print("Invalid passenger number")
+
+except Exception as e:
+    print("Error:", e)
+
+
+
+
