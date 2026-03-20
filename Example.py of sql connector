@@ -1,0 +1,53 @@
+import mysql.connector
+
+# Establishing connection
+try:
+    conn = mysql.connector.connect(
+        user="root",
+        password="Santosh8969",
+        host="localhost",
+        port=3306,
+        database="GIETU"
+    )
+    
+    if conn.is_connected():
+        cur = conn.cursor()
+        
+        # Dictionary of all requirements from your image
+        queries = {
+            1: "SELECT * FROM giet",
+            2: "SELECT name FROM giet",
+            3: "SELECT name, address FROM giet",
+            4: "SELECT roll, salary FROM giet",
+            5: "SELECT * FROM giet WHERE name = 'aman'",
+            6: "SELECT * FROM giet WHERE address = 'delhi'",
+            7: "SELECT * FROM giet WHERE gender = 'M'",
+            8: "SELECT * FROM giet WHERE designation = 'doctor'",
+            9: "SELECT * FROM giet WHERE salary = 15000",
+            10: "SELECT * FROM giet WHERE salary > 20000",
+            11: "SELECT * FROM giet WHERE salary < 30000",
+            12: "SELECT * FROM giet WHERE gender = 'M' AND salary > 20000",
+            13: "SELECT * FROM giet WHERE gender = 'F' OR address = 'raipur'",
+            14: "SELECT * FROM giet WHERE name LIKE 'a%'",
+            15: "SELECT * FROM giet WHERE name LIKE '%h'",
+            16: "SELECT * FROM giet WHERE address LIKE '%pur%'",
+            17: "SELECT * FROM giet ORDER BY name ASC",
+            18: "SELECT * FROM giet ORDER BY salary DESC",
+            19: "SELECT COUNT(*) FROM giet",
+            20: "SELECT COUNT(*) FROM giet WHERE gender = 'M'"
+        }
+
+        # Executing and printing results
+        for i, sql in queries.items():
+            print(f"\n--- Query {i}: {sql} ---")
+            cur.execute(sql)
+            results = cur.fetchall()
+            for row in results:
+                print(row)
+
+        cur.close()
+        conn.close()
+        print("\nConnection closed.")
+
+except mysql.connector.Error as err:
+    print(f"Error: {err}")
