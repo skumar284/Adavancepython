@@ -1,0 +1,378 @@
+#Question-1
+a = int(input("Enter first number: "))
+b = int(input("Enter second number: "))
+print("Sum:", a + b)
+print("Difference:", a - b)
+print("Product:", a * b)
+if b != 0:
+    print("Division:", a / b)
+else:
+    print("Division not possible")
+print("a is Even" if a % 2 == 0 else "a is Odd")
+print("b is Even" if b % 2 == 0 else "b is Odd")
+print("Float conversion of a:", float(a))
+
+#Question-2
+
+s = input("Enter a sentence: ")
+vowels = "aeiouAEIOU"
+v_count = sum(1 for ch in s if ch in vowels)
+c_count = sum(1 for ch in s if ch.isalpha() and ch not in vowels)
+print("Vowels:", v_count)
+print("Consonants:", c_count)
+print("Reversed:", s[::-1])
+print("Underscores:", s.replace(" ", "_"))
+print("Capitalized:", s.title())
+
+#Question-3
+
+t = (1, "hola", 3.5, 7, "world")
+nums = tuple(x for x in t if isinstance(x, (int, float)))
+print("Numeric values:", nums)
+try:
+    t[0] = 10
+except TypeError:
+    print("Tuples are immutable!")
+t2 = (100, 200)
+print("Concatenated:", t + t2)
+
+#Question-4
+
+students = {"A": 80, "B": 90 , "E":70}
+students["C"] = 85 
+students["A"] = 95
+del students["B"]
+print("Keys:", students.keys())
+print("Values:", students.values())
+print("Items:", students.items())
+
+#Question-5
+
+words = ["madam", "hello", "racecar", "python"]
+sorted_words = sorted(words, key=len)
+palindromes = [w for w in words if w == w[::-1]]
+replaced = [w.replace(" ", "-") for w in words]
+print(sorted_words)
+print("Palindromes:", palindromes)
+print("Hyphen replaced:", replaced)
+
+#Question-6
+
+a = (5, 12, "hi", 8, 20)
+lst = list(a)
+lst = [x for x in lst if not (isinstance(x, int) and x < 10)]
+t_new = tuple(lst)
+print(t_new)
+
+#Question-7
+
+students = {}
+def add_student(name, marks):
+    students[name] = marks
+def average(name):
+    return sum(students[name]) / len(students[name])
+def topper():
+    return max(students, key=lambda x: average(x))
+add_student("A", [80, 90, 85])
+add_student("B", [95, 92, 88])
+print("Topper:", topper())
+
+#Question-8
+
+contacts = {}
+while True:
+    choice = input("1.Add 2.Search 3.Delete 4.List 5.Exit: ")
+    if choice == "1":
+        name = input("Name: ")
+        phone = input("Phone: ")
+        contacts[name] = phone
+    elif choice == "2":
+        name = input("Search name: ")
+        print(contacts.get(name, "Not found"))
+    elif choice == "3":
+        name = input("Delete name: ")
+        contacts.pop(name, None)
+    elif choice == "4":
+        print(contacts)
+    else:
+        break
+
+#Question-9
+
+employees = {}
+while True:
+    ch = input("1.Add 2.Remove 3.Display 4.Exit: ")
+    if ch == "1":
+        name = input("Enter name: ")
+        employees[name] = "Present"
+    elif ch == "2":
+        name = input("Enter name: ")
+        employees.pop(name, None)
+    elif ch == "3":
+        print(employees)
+    else:
+        break
+
+#Question-10
+
+records = []
+while True:
+    ch = input("1.Add 2.Show Pass 3.Exit: ")
+    if ch == "1":
+        name = input("Name: ")
+        roll = input("Roll: ")
+        marks = int(input("Marks: "))
+        records.append({"name": name, "roll": roll, "marks": marks})
+    elif ch == "2":
+        for r in records:
+            if r["marks"] >= 40:
+                print(r)
+    else:
+        break
+
+#Quetion-11
+
+menu = {
+    "Pizza": 250,
+    "Burger": 120,
+    "Pasta": 180,
+    "Sandwich": 100,
+    "Coffee": 80
+}
+total_bill = 0
+print("----- Welcome to Restaurant -----")
+print("Menu:")
+for item, price in menu.items():
+    print(f"{item} : ₹{price}")
+while True:
+    order = input("\nEnter item to order (or 'exit' to finish): ")
+
+    if order.lower() == "exit":
+        break
+    if order in menu:
+        quantity = int(input(f"Enter quantity of {order}: "))
+        cost = menu[order] * quantity
+        total_bill += cost
+        print(f"{order} added! Cost = ₹{cost}")
+    else:
+        print("Item not available!")
+tax = total_bill * 0.05
+final_amount = total_bill + tax
+print("\n----- BILL -----")
+print(f"Total Amount : ₹{total_bill}")
+print(f"Tax (5%)     : ₹{tax}")
+print(f"Final Bill   : ₹{final_amount}")
+print("Thank you! Visit again 😊")
+
+Question-12
+
+class Node:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.prev = None
+        self.next = None
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}  # hashmap: key -> node
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)        
+        self.head.next = self.tail
+        self.tail.prev = self.head
+    def _remove(self, node):
+        """Remove node from linked list"""
+        prev = node.prev
+        nxt = node.next
+        prev.next = nxt
+        nxt.prev = prev
+    def _insert(self, node):
+        """Insert node right after head (most recent)"""
+        node.next = self.head.next
+       node.prev = self.head   
+        self.head.next.prev = node
+        self.head.next = node
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1        
+        node = self.cache[key]      
+        self._remove(node)
+        self._insert(node)    
+        return node.value
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self._remove(self.cache[key])      
+     node = Node(key, value)
+        self._insert(node)
+        self.cache[key] = node
+        if len(self.cache) > self.capacity:
+            lru = self.tail.prev
+            self._remove(lru)
+            del self.cache[lru.key]
+
+#Question-13
+
+sentence = input("Enter a sentence: ")
+cleaned = ""
+for ch in sentence:
+    if ch.isalnum():
+        cleaned += ch.lower()
+unique_chars = set()
+for ch in cleaned:
+    if cleaned.count(ch) == 1:
+        unique_chars.add(ch)
+print("Unique characters:", unique_chars)
+
+#Question-14
+
+def custom_power(base, exponent):
+    result = 1
+    if exponent >= 0:
+        for _ in range(exponent):
+            result *= base
+    else:
+        for _ in range(-exponent):
+            result *= base
+        result = 1 / result
+    return result
+print(custom_power(2, 3))   
+print(custom_power(5, -2)) 
+
+#Question-15
+
+def string_validator(text):
+    cleaned = ""
+    for ch in text:
+        if ch.isalnum():
+            cleaned += ch.lower()
+    is_palindrome = True
+    left = 0
+    right = len(cleaned) - 1
+    while left < right:
+        if cleaned[left] != cleaned[right]:
+            is_palindrome = False
+            break
+        left += 1
+        right -= 1
+    vowels = 0
+    consonants = 0
+    digits = 0
+    special_chars = 0  
+    for ch in text:
+        if ch.isalpha():
+            if ch.lower() in "aeiou":
+                vowels += 1
+            else:
+                consonants += 1
+        elif ch.isdigit():
+            digits += 1
+        else:
+            special_chars += 1
+    print("Palindrome:", is_palindrome)
+    print("Vowels:", vowels)
+    print("Consonants:", consonants)
+    print("Digits:", digits)
+    print("Special Characters:", special_chars)
+string_validator("Madam123@")
+
+#Question-16
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+        self.marks = {}
+
+    def add_marks(self, subject, score):
+        self.marks[subject] = score
+class Teacher:
+    def __init__(self, name, subject):
+        self.name = name
+        self.subject = subject
+
+    def assign_marks(self, student, score):
+        student.add_marks(self.subject, score)
+class Admin:
+    def __init__(self):
+        self.students = []
+        self.teachers = []
+    def add_student(self, student):
+        self.students.append(student)
+    def add_teacher(self, teacher):
+        self.teachers.append(teacher)
+s = Student("Anita")
+t = Teacher("Sharma", "Math")
+a = Admin()
+a.add_student(s)
+a.add_teacher(t)
+t.assign_marks(s, 90)
+print(s.marks)
+
+#Question-18
+
+class Vehicle:
+    total_rented = 0 
+    def __init__(self, name):
+        self.name = name
+    def calculate_rent(self, days):
+        return 0  
+    def rent_vehicle(self):
+        Vehicle.total_rented += 1
+class Car(Vehicle):
+    rate_per_day = 1000
+    def calculate_rent(self, days):
+        return days * Car.rate_per_day
+class Bike(Vehicle):
+    rate_per_day = 500
+    def calculate_rent(self, days):
+        return days * Bike.rate_per_day
+class Truck(Vehicle):
+    rate_per_day = 2000
+    def calculate_rent(self, days):
+        return days * Truck.rate_per_day
+car = Car("Sedan")
+bike = Bike("Sport Bike")
+truck = Truck("Heavy Truck")
+car.rent_vehicle()
+bike.rent_vehicle()
+truck.rent_vehicle()
+print("Car Rent:", car.calculate_rent(3))
+print("Bike Rent:", bike.calculate_rent(2))
+print("Truck Rent:", truck.calculate_rent(4))
+print("Total Vehicles Rented:", Vehicle.total_rented)
+
+#Quetion-19
+
+class Book:
+    def __init__(self, title, author): 
+        self.title = title
+        self.author = author
+        print(f"Book added: {self.title} by {self.author}")
+
+    def __del__(self):  
+        print(f"Book removed: {self.title}")
+
+
+class Member:
+    def __init__(self, name, member_id): 
+        self.name = name
+        self.member_id = member_id
+        print(f"Member created: {self.name}")
+class Library:
+    def __init__(self):
+        self.books = []
+        self.members = []
+    def add_book(self, book):
+        self.books.append(book)
+
+    def remove_book(self, book):
+        if book in self.books:
+            self.books.remove(book)
+            del book
+    def add_member(self, member):
+        self.members.append(member)
+lib = Library()
+b1 = Book("Python Basics", "John Doe")
+m1 = Member("Alice", "M101")
+lib.add_book(b1)
+lib.add_member(m1)
+lib.remove_book(b1)
