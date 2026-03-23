@@ -1,0 +1,9 @@
+s = input("Enter a sentence: ")
+vowels = "aeiouAEIOU"
+v_count = sum(1 for ch in s if ch in vowels)
+c_count = sum(1 for ch in s if ch.isalpha() and ch not in vowels)
+print("Vowels:", v_count)
+print("Consonants:", c_count)
+print("Reversed:", s[::-1])
+print("Underscores:", s.replace(" ", "_"))
+print("Capitalized:", s.title())
